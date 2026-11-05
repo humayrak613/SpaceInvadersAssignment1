@@ -15,9 +15,10 @@ public class AlienFleet : MonoBehaviour
     float speed = .1f;
     float leftBound = -16;
     float rightBound = 16;
-    float lowerBound = 4.8f;
+    float lowerBound = -4f;
     float downTime = .1f;
     bool movingDown = false;
+    bool isGameOver = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -35,15 +36,29 @@ public class AlienFleet : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnAlienDestroyed(GameObject alien)
     {
-        alienCounter.score = aliens.Count;
+        aliens.Remove(alien);
+        alienCounter.SetCount(aliens.Count);
+        speed *= 1.035f;
+
+        // win condition
+        if (aliens.Count == 0)
+        {
+            GameManager.Instance.EndGame(true);
+        }
     }
 
     void FixedUpdate()
     {
-        //move all aliens
+        if (aliens.Count == 0) return;
+        if (isGameOver) return; 
+
+        // move all alieans + check if aliens reached lowerBound
+        float left = float.PositiveInfinity;
+        float right = float.NegativeInfinity;
+        bool aliensReachedBottom = false;
+
         foreach (GameObject alien in aliens)
         {
             Vector3 position = alien.transform.position;
@@ -54,29 +69,26 @@ public class AlienFleet : MonoBehaviour
             else
             {
                 position.y += -Mathf.Abs(speed);
-                /*if (position.y <= lowerBound)
-                {
-                    movingDown = false;
-                    lowerBound = position.y - 1;
-                }*/
             }
             alien.transform.position = position;
+
+            if (position.x > right) right = position.x;
+            if (position.x < left)  left  = position.x;
+
+            // any alien has reached the bottom line --> game over
+            if (position.y <= lowerBound)
+            {
+                aliensReachedBottom = true;
+            }
+        }
+
+        if (aliensReachedBottom)
+        {
+            GameOver();
+            return;
         }
 
         //change alien direction
-        float left = 0, right = 0;
-        foreach (GameObject alien in aliens)
-        {
-            Vector3 position = alien.transform.position;
-            if (position.x > right)
-            {
-                right = position.x;
-            }
-            if (position.x < left)
-            {
-                left = position.x;
-            }
-        }
         if (speed > 0 && right >= rightBound || speed < 0 && left <= leftBound)
         {
             speed = -speed;
@@ -89,4 +101,14 @@ public class AlienFleet : MonoBehaviour
     {
         movingDown = false;
     }
+
+    void GameOver()
+    {
+        isGameOver = true;
+        Debug.Log("Game Over, the aliens have reached you!");
+        
+        // lose condition
+        GameManager.Instance.EndGame(false);
+    }
+
 }

@@ -278,8 +278,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Spaceship
   dartPrefab: {fileID: 2877393848094754609, guid: bebbfc44e1e054743a23b83b6650da17, type: 3}
-  lastShot: 0
+  shotCooldown: 0.05
   speed: 10
+  minX: -15
+  maxX: 15
+  startPosition: {x: 0, y: -8, z: 0}
+  invulnerableTime: 1
+  explosionPrefab: {fileID: 5411320672020138785, guid: 13f33b805573aac4ba3ca7ed1f49685e, type: 3}
 --- !u!54 &-5681516107360910860
 Rigidbody:
   m_ObjectHideFlags: 0

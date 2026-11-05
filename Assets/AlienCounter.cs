@@ -13,9 +13,9 @@ public class AlienCounter : MonoBehaviour
         uiText = GetComponent<TextMeshProUGUI>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetCount(int count)
     {
-        uiText.text = "Remaining Aliens: " + score.ToString("#,0");
+        score = count;
+        uiText.text = "Remaining Aliens: " + count.ToString("#,0");
     }
 }

@@ -20,8 +20,17 @@ MonoBehaviour:
     rid: 6056425646817280000
   m_ActivePlatformGuid: 
   m_AdditionalPlatformBuildSettings: []
-  m_OverrideGlobalSceneList: 0
-  m_Scenes: []
+  m_OverrideGlobalSceneList: 1
+  m_Scenes:
+  - m_enabled: 1
+    m_path: Assets/Scenes/StartMenu.unity
+    m_guid: 2bb52365ac96cc64ca9beca981ab03a7
+  - m_enabled: 1
+    m_path: Assets/Scenes/GameScreen.unity
+    m_guid: 99c9720ab356a0642a771bea13969a05
+  - m_enabled: 1
+    m_path: Assets/Scenes/EndScreen.unity
+    m_guid: c1eb0090f300c8c4eb5701b2ee7d4427
   m_HasScriptingDefines: 0
   m_ScriptingDefines: []
   m_PlayerSettingsYaml:

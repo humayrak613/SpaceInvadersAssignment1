@@ -5,17 +5,6 @@ public class AlienBullet : MonoBehaviour
     [Header("Inscribed")]
 
     static float speed = .1f;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     void FixedUpdate()
     {
@@ -30,7 +19,13 @@ public class AlienBullet : MonoBehaviour
 
     void OnCollisionEnter(Collision coll)
     {
+        // Only damage the ship. Darts and other aliens pass through.
+        if (coll.gameObject.layer == LayerMask.NameToLayer("Spaceship"))
+        {
+            LivesManager.Instance.LoseLife();
+            coll.gameObject.GetComponent<Spaceship>()?.OnHit();
+        }
+
         Destroy(gameObject);
-        Destroy(coll.gameObject);
     }
 }
